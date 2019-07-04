@@ -1,6 +1,6 @@
 # CGALBuilder
 
-[![Build Status](https://travis-ci.org/rgcv/CGALBuilder.svg?branch=master)](https://travis-ci.org/rgcv/CGALBuilder)
+[![Build Status](https://travis-ci.com/rgcv/CGALBuilder.svg?branch=master)](https://travis-ci.com/rgcv/CGALBuilder)
 
 This repository builds binary artifacts for [CGAL][1]. Binary artifacts are
 automatically uploaded to [this repository's GitHub releases page][2] whenever a
