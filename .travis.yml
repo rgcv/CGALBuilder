@@ -1,0 +1,46 @@
+language: julia
+os:
+  - linux
+julia:
+  - 1.0
+notifications:
+  email: false
+git:
+  depth: 99999999
+cache:
+  timeout: 1000
+  directories:
+    - downloads
+env:
+  global:
+    - BINARYBUILDER_DOWNLOADS_CACHE=downloads
+    - BINARYBUILDER_AUTOMATIC_APPLE=true
+  # parallelize builds (job per available target)
+  matrix:
+    - TARGET=i686-linux-gnu
+    - TARGET=x86_64-linux-gnu
+    - TARGET=i686-w64-mingw32
+    - TARGET=x86_64-w64-mingw32
+    - TARGET=x86_64-apple-darwin14
+sudo: required
+
+jobs:
+  include:
+    - stage: regenerate build.jl
+      script: julia --color=yes build_tarballs.jl --only-buildjl
+      if: tag IS present
+before_script:
+  - julia -e 'using Pkg; pkg"add BinaryProvider; add BinaryBuilder#master; build"'
+script:
+  - julia --color=yes build_tarballs.jl --verbose "$TARGET"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: FHKD4s4bLCg0oi4SwjYwWafHTupexH81VTXhu5TJnIyXoUoGCOFpfpjGwGLG5w/KpBw4deLA0gIK56T3sWfrUQcf1nFgAOdEI+8zVlapNNopr2TyH0P+RBtIlqszKf7Xf2TTkNA4bBdbvDpuG8QoaraixcMb9EUWBPTIo09qlITAEZ7Vzhk0sBcIrpk4Pc+oWg6rrMHGZeKeSCnPn/XKcaD5pqx4FCkE/LJv/manl+fNrtwh3HEeHZONVOZEVxKVubb2kCwyBJuYk76RP1qgfhvm6he+A24fVrplEvO2WDDsJMIZ1g9baRCu2IKHH2A9eCQFCKxnoD/Mz0x6/DMJML04WtAlhp3joN9U72M2of3TVDM0KqJH41kC5nWR8c8Tncry9FVmv5J9lKM8f/yWbPcN0ANNOC92n08FS9goKXDLXe7vL0XkL6DGOnJXqfDoDYeaNIk+N/0y94/WV0+LI1p//eCA7gs90UQJNbjj0melPU6I2Jeb/22HCsaHnbMY2CR1QRujAJAnbBfqyD9bME6pU/0OJCyDrcgXzQmVUsxCPGxw+h2bQj/6fSiCV+ZyPmna3d56xxA0pY+PqRHHn8Hvae/ibyCM3QZtKm+q5JV8AVN96cqeP0YPjfG8AQQQDxKGBSQ/Oi2TzL+T/k6CzeUSecxsgDaYDoR5EmtkAtU=
+  file_glob: true
+  file: products/*
+  skip_cleanup: true
+  on:
+    repo: rgcv/CGALBuilder
+    tags: true
