@@ -54,7 +54,7 @@ const _oss = (Linux, MacOS, Windows)
 const _archs = (:x86_64, :i686)
 for os in _oss
     for arch in _archs
-        os == MacOS && arch != :x86_64 && continue
+        os == MacOS && arch !== :x86_64 && continue
         push!(platforms, os(arch))
     end
 end
