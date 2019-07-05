@@ -26,7 +26,6 @@ declare -A ARGS
 ARGS+=([CMAKE_BUILD_TYPE]=Release)
 ARGS+=([CMAKE_INSTALL_PREFIX]="$prefix")
 ARGS+=([CMAKE_TOOLCHAIN_FILE]="/opt/$target/$target.toolchain")
-# for Boost.Thread, just default c++ std to 11
 ARGS+=([CMAKE_CXX_STANDARD]=11)
 ## cgal specific
 ARGS+=([WITH_CGAL_Core]=ON)
@@ -34,7 +33,6 @@ ARGS+=([WITH_CGAL_ImageIO]=OFF)
 ARGS+=([WITH_CGAL_Qt5]=OFF)
 # try_run doesn't like cross-compilation: these are required
 ARGS+=([CGAL_test_cpp_version_RUN_RES]=0)
-# must be >= 201103 to link up with Boost.Thread
 ARGS+=([CGAL_test_cpp_version_RUN_RES__TRYRUN_OUTPUT]="201103")
 
 # CGAL_Core's CMakeLists includes the latter path.. dirty hack
