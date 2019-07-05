@@ -60,11 +60,11 @@ for os in _oss
 end
 
 # The products that we will ensure are always built
-const _lib_prefix = Symbol(:lib, name)
-const _libs = [:Core]
+const _lib  = Symbol(:lib, name)
+const _libs = (:Core,)
 products(prefix) = [
-    LibraryProduct(prefix, "$_lib_prefix", _lib_prefix),
-    map(lib -> LibraryProduct(prefix, "$(_lib_prefix)_$lib", lib), [:Core])...
+    LibraryProduct(prefix, "$_lib", _lib),
+    map(lib -> LibraryProduct(prefix, "$(_lib)_$lib", lib), _libs)...
 ]
 
 # Build the tarballs, and possibly a `build.jl` as well.
