@@ -20,11 +20,11 @@ env:
     - BINARYBUILDER_AUTOMATIC_APPLE=true
   # parallelize builds (job per available target)
   matrix:
-    - TARGET=i686-linux-gnu
-    - TARGET=i686-w64-mingw32
     - TARGET=x86_64-linux-gnu
-    - TARGET=x86_64-w64-mingw32
+    - TARGET=i686-linux-gnu
     - TARGET=x86_64-apple-darwin
+    - TARGET=x86_64-w64-mingw32
+    - TARGET=i686-w64-mingw32
 before_script:
   - julia -e 'using Pkg; pkg"add BinaryProvider; add BinaryBuilder#master; build"'
 script:
