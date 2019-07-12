@@ -21,26 +21,25 @@ dependencies = [
 const script = raw"""#!/bin/bash
 mkdir -p "$WORKSPACE/srcdir/build" && cd "$WORKSPACE/srcdir/build"
 
-declare -A ARGS
-## cmake specific
-ARGS+=([CMAKE_BUILD_TYPE]=Release)
-ARGS+=([CMAKE_INSTALL_PREFIX]="$prefix")
-ARGS+=([CMAKE_TOOLCHAIN_FILE]="/opt/$target/$target.toolchain")
-ARGS+=([CMAKE_CXX_STANDARD]=11)
-## cgal specific
-ARGS+=([WITH_CGAL_Core]=ON)
-ARGS+=([WITH_CGAL_ImageIO]=OFF)
-ARGS+=([WITH_CGAL_Qt5]=OFF)
-# try_run doesn't like cross-compilation: these are required
-ARGS+=([CGAL_test_cpp_version_RUN_RES]=0)
-ARGS+=([CGAL_test_cpp_version_RUN_RES__TRYRUN_OUTPUT]="201103")
 
-# CGAL_Core's CMakeLists includes the latter path.. dirty hack
-ln -sf "$prefix/include" "/opt/$target/$target/sys-root/usr/local/include"
+## configure build
+mkdir -p "$WORKSPACE/srcdir/build" && cd "$WORKSPACE/srcdir/build"
 
-for arg in "${!ARGS[@]}"; do
-  echo "-D$arg=${ARGS[$arg]}"
-done | xargs cmake ../cgal
+CMAKE_FLAGS=(
+  ## cmake specific
+  -DCMAKE_TOOLCHAIN_FILE="/opt/$target/$target.toolchain"
+  -DCMAKE_BUILD_TYPE=Release
+  -DCMAKE_INSTALL_PREFIX="$prefix"
+  ## cgal specific
+  -DWITH_CGAL_Core=ON
+  -DWITH_CGAL_ImageIO=OFF
+  -DWITH_CGAL_Qt5=OFF
+  # try_run doesn't like cross-compilation: this is required
+  -DCGAL_test_cpp_version_RUN_RES=$__need_boost_thread
+  -DCGAL_test_cpp_version_RUN_RES__TRYRUN_OUTPUT=$__cplusplus
+)
+
+cmake ${CMAKE_FLAGS[@]} ../cgal*/
 
 cmake --build . --target install
 """
