@@ -41,7 +41,8 @@ CMAKE_FLAGS=(
 
 cmake ${CMAKE_FLAGS[@]} ../cgal*/
 
-cmake --build . --target install
+## and away we go..
+cmake --build . --config Release --target install
 """
 
 # These are the platforms we will build for by default, unless further
