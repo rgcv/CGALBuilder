@@ -47,15 +47,7 @@ cmake --build . --config Release --target install
 
 # These are the platforms we will build for by default, unless further
 # platforms are passed in on the command line
-platforms = []
-const _oss = (Linux, MacOS, Windows)
-const _archs = (:x86_64, :i686)
-for os in _oss
-    for arch in _archs
-        os == MacOS && arch !== :x86_64 && continue
-        push!(platforms, os(arch))
-    end
-end
+const platforms = supported_platforms()
 
 # The products that we will ensure are always built
 const _lib  = Symbol(:lib, name)
