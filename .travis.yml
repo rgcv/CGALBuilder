@@ -12,7 +12,7 @@ cache:
   directories:
     - downloads
 
-stage: build
+stage: build tarballs
 sudo: required
 env:
   global:
