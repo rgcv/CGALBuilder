@@ -18,8 +18,20 @@ dependencies = [
 ]
 
 # Bash recipe for building across all platforms
-const script = raw"""#!/bin/bash
-mkdir -p "$WORKSPACE/srcdir/build" && cd "$WORKSPACE/srcdir/build"
+const script = raw"""
+## pre-build setup
+# HACK: cmake v3.11 can't properly find Boost beyond 1.67.. here, we install a
+# version of cmake that recognizes Boost at least up to v1.69
+apk del cmake
+apk add cmake --repository http://dl-cdn.alpinelinux.org/alpine/edge/main
+
+# check c++ standard reported by the compiler
+# CGAL uses CMake's try_run to check if it needs to link with Boost.Thread
+# depending on the c++ standard supported by the compiler. From c++11 onwards,
+# CGAL doesn't require Boost.Thread
+__need_boost_thread=1
+__cplusplus=$($CXX -x c++ -dM -E - </dev/null | grep __cplusplus | grep -o '[0-9]*')
+[ $__cplusplus -ge 201103 ] && __need_boost_thread=0
 
 
 ## configure build
