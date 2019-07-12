@@ -11,32 +11,30 @@ cache:
   timeout: 1000
   directories:
     - downloads
+
+stage: build
+sudo: required
 env:
   global:
     - BINARYBUILDER_DOWNLOADS_CACHE=downloads
     - BINARYBUILDER_AUTOMATIC_APPLE=true
   # parallelize builds (job per available target)
-matrix:
-  include:
-    - env: TARGET=x86_64-linux-gnu
-    - env: TARGET=x86_64-w64-mingw
-    - env: TARGET=i686-linux-gnu
-      if: tag IS present
-    - env: TARGET=i686-w64-mingw32
-      if: tag IS present
-    - env: TARGET=x86_64-apple-darwin14
-      if: tag IS present
-sudo: required
+  matrix:
+    - TARGET=i686-linux-gnu
+    - TARGET=i686-w64-mingw32
+    - TARGET=x86_64-linux-gnu
+    - TARGET=x86_64-w64-mingw32
+    - TARGET=x86_64-apple-darwin
+before_script:
+  - julia -e 'using Pkg; pkg"add BinaryProvider; add BinaryBuilder#master; build"'
+script:
+  - julia --color=yes build_tarballs.jl --verbose "$TARGET"
 
 jobs:
   include:
     - stage: regenerate build.jl
       script: julia --color=yes build_tarballs.jl --only-buildjl
       if: tag IS present
-before_script:
-  - julia -e 'using Pkg; pkg"add BinaryProvider; add BinaryBuilder#master; build"'
-script:
-  - julia --color=yes build_tarballs.jl --verbose "$TARGET"
 
 deploy:
   provider: releases
