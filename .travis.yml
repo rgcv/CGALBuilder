@@ -16,11 +16,10 @@ env:
     - BINARYBUILDER_DOWNLOADS_CACHE=downloads
     - BINARYBUILDER_AUTOMATIC_APPLE=true
   # parallelize builds (job per available target)
-  matrix:
-    - TARGET=x86_64-linux-gnu
-    - TARGET=x86_64-w64-mingw32
 matrix:
   include:
+    - env: TARGET=x86_64-linux-gnu
+    - env: TARGET=x86_64-w64-mingw
     - env: TARGET=i686-linux-gnu
       if: tag IS present
     - env: TARGET=i686-w64-mingw32
