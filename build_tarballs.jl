@@ -50,11 +50,9 @@ cmake --build . --config Release --target install
 const platforms = supported_platforms()
 
 # The products that we will ensure are always built
-const _lib  = Symbol(:lib, name)
-const _libs = (:Core,)
 products(prefix) = [
-    LibraryProduct(prefix, "$_lib", _lib),
-    map(lib -> LibraryProduct(prefix, "$(_lib)_$lib", lib), _libs)...
+    LibraryProduct(prefix, "libCGAL", :libCGAL),
+    LibraryProduct(prefix, "libCGAL_Core", :libCGAL_Core),
 ]
 
 # Build the tarballs, and possibly a `build.jl` as well.
