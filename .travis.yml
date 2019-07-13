@@ -31,17 +31,35 @@ script:
 jobs:
   include:
     - stage: build tarballs
-      env: 
-        - TARGET=x86_64-linux-musl
-        - TARGET=aarch64-linux-gnu
-        - TARGET=aarch64-linux-musl
-        - TARGET=arm-linux-gnueabihf
-        - TARGET=arm-linux-musleabihf
-        - TARGET=i686-linux-gnu
-        - TARGET=i686-linux-musl
-        - TARGET=powerpc64le-linux-gnu
-        - TARGET=i686-w64-mingw32
-        - TARGET=x86_64-unknown-freebsd11.1
+      env: TARGET=x86_64-linux-musl
+      if: tag IS present
+    - stage: build tarballs
+      env: TARGET=aarch64-linux-gnu
+      if: tag IS present
+    - stage: build tarballs
+      env: TARGET=aarch64-linux-musl
+      if: tag IS present
+    - stage: build tarballs
+      env: TARGET=arm-linux-gnueabihf
+      if: tag IS present
+    - stage: build tarballs
+      env: TARGET=arm-linux-musleabihf
+      if: tag IS present
+    - stage: build tarballs
+      env: TARGET=i686-linux-gnu
+      if: tag IS present
+    - stage: build tarballs
+      env: TARGET=i686-linux-musl
+      if: tag IS present
+    - stage: build tarballs
+      env: TARGET=powerpc64le-linux-gnu
+      if: tag IS present
+    - stage: build tarballs
+      env: TARGET=i686-w64-mingw32
+      if: tag IS present
+    - stage: build tarballs
+      env: TARGET=x86_64-unknown-freebsd11.1
+
       if: tag IS present
     - stage: regenerate build.jl
       script: julia --color=yes build_tarballs.jl --only-buildjl
