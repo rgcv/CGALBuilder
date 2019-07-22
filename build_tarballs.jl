@@ -20,6 +20,8 @@ dependencies = [
 # Bash recipe for building across all platforms
 const script = raw"""
 ## pre-build setup
+# exit on error
+set -eu
 # HACK: cmake v3.11 can't properly find Boost beyond 1.67.. here, we install a
 # version of cmake that recognizes Boost at least up to v1.69
 apk del cmake
