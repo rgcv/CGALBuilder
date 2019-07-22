@@ -20,9 +20,8 @@ env:
     - BINARYBUILDER_AUTOMATIC_APPLE=true
   # parallelize builds (job per available target)
   matrix:
-    - TARGET=x86_64-linux-gnu
-    - TARGET=x86_64-w64-mingw32
-    - TARGET=x86_64-apple-darwin14
+    - TARGET=x86_64-linux-gnu-gcc7-cxx11
+    - TARGET=x86_64-w64-mingw32-gcc7-cxx11
 before_script:
   - julia -e 'using Pkg; pkg"add BinaryProvider; add BinaryBuilder#master; build"'
 script:
@@ -31,36 +30,27 @@ script:
 jobs:
   include:
     - stage: build tarballs
-      env: TARGET=x86_64-linux-musl
+      env: TARGET=i686-linux-gnu-gcc7-cxx11
       if: tag IS present
     - stage: build tarballs
-      env: TARGET=aarch64-linux-gnu
+      env: TARGET=i686-w64-mingw32-gcc7-cxx11
       if: tag IS present
     - stage: build tarballs
-      env: TARGET=aarch64-linux-musl
+      env: TARGET=x86_64-linux-gnu-gcc8-cxx11
       if: tag IS present
     - stage: build tarballs
-      env: TARGET=arm-linux-gnueabihf
+      env: TARGET=i686-linux-gnu-gcc8-cxx11
       if: tag IS present
     - stage: build tarballs
-      env: TARGET=arm-linux-musleabihf
+      env: TARGET=x86_64-w62-mingw32-gcc8-cxx11
       if: tag IS present
     - stage: build tarballs
-      env: TARGET=i686-linux-gnu
+      env: TARGET=i686-w64-mingw32-gcc8-cxx11
       if: tag IS present
     - stage: build tarballs
-      env: TARGET=i686-linux-musl
+      env: TARGET=x86_64-apple-darwin14
       if: tag IS present
-    - stage: build tarballs
-      env: TARGET=powerpc64le-linux-gnu
-      if: tag IS present
-    - stage: build tarballs
-      env: TARGET=i686-w64-mingw32
-      if: tag IS present
-    - stage: build tarballs
-      env: TARGET=x86_64-unknown-freebsd11.1
 
-      if: tag IS present
     - stage: regenerate build.jl
       script: julia --color=yes build_tarballs.jl --only-buildjl
       if: tag IS present
