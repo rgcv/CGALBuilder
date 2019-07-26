@@ -30,18 +30,6 @@ script:
 jobs:
   include:
     - stage: build tarballs
-      env: TARGET=i686-linux-gnu-gcc4-cxx11
-      if: tag IS present
-    - stage: build tarballs
-      env: TARGET=i686-w64-mingw32-gcc4-cxx11
-      if: tag IS present
-    - stage: build tarballs
-      env: TARGET=x86_64-linux-gnu-gcc4-cxx11
-      if: tag IS present
-    - stage: build tarballs
-      env: TARGET=x86_64-w64-mingw32-gcc4-cxx11
-      if: tag IS present
-    - stage: build tarballs
       env: TARGET=i686-linux-gnu-gcc7-cxx11
       if: tag IS present
     - stage: build tarballs
