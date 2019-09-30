@@ -3,11 +3,11 @@
 using BinaryBuilder
 
 const name = "CGAL"
-const version = v"4.14"
+const version = v"4.14.1"
 
 # Collection of sources required to build CGAL
 const sources = [
-    "https://github.com/CGAL/cgal.git" => "bf86a541522982ea042f0787ad75476556858496",
+    "https://github.com/CGAL/cgal.git" => "f19ad523e473030c83a6457b9748387980fdc121",
 ]
 
 # Dependencies that must be installed before this package can be built
