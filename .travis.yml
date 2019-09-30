@@ -30,16 +30,16 @@ script:
 jobs:
   include:
     - stage: build tarballs
-      env: TARGET=aarch-linux-gnu
+      env: TARGET=aarch64-linux-gnu
       if: tag IS present
     - stage: build tarballs
-      env: TARGET=aarch-linux-musl
+      env: TARGET=aarch64-linux-musl
       if: tag IS present
     - stage: build tarballs
       env: TARGET=arm-linux-gnueabihf
       if: tag IS present
     - stage: build tarballs
-      env: TARGET=arm-linux-musl
+      env: TARGET=arm-linux-musleabihf
       if: tag IS present
     - stage: build tarballs
       env: TARGET=i686-linux-gnu
