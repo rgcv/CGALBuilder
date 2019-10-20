@@ -21,8 +21,7 @@ script:
 
 jobs:
   include:
-    - stage: build tarballs
-      env: PART=1/13
+    - env: PART=1/13
       if: tag IS present
     - env: PART=2/13
     - env: PART=3/13
@@ -46,9 +45,6 @@ jobs:
     - env: PART=12/13
       if: tag IS present
     - env: PART=13/13
-
-    - stage: mock stage
-      script: echo
 
     - stage: regenerate build.jl
       script: julia --color=yes build_tarballs.jl --only-buildjl
