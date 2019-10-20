@@ -22,10 +22,6 @@ const script = raw"""
 ## pre-build setup
 # exit on error
 set -eu
-# HACK: cmake v3.11 can't properly find Boost beyond 1.67.. here, we install a
-# version of cmake that recognizes Boost at least up to v1.69 (3.13.0)
-apk del cmake
-apk add cmake --repository http://dl-cdn.alpinelinux.org/alpine/v3.9/main
 
 # check c++ standard reported by the compiler
 # CGAL uses CMake's try_run to check if it needs to link with Boost.Thread
