@@ -14,10 +14,6 @@ env:
   global:
     - BINARYBUILDER_DOWNLOADS_CACHE=downloads
     - BINARYBUILDER_AUTOMATIC_APPLE=true
-  # parallelize builds (job per available target)
-  matrix:
-    - PART=2/13  # Linux x64
-    - PART=13/13 # Windows x64
 before_script:
   - julia -e 'using Pkg; pkg"add BinaryProvider; add BinaryBuilder#master; build"'
 script:
@@ -28,36 +24,28 @@ jobs:
     - stage: build tarballs
       env: PART=1/13
       if: tag IS present
-    - stage: build tarballs
-      env: PART=3/13
+    - env: PART=2/13
+    - env: PART=3/13
       if: tag IS present
-    - stage: build tarballs
-      env: PART=4/13
+    - env: PART=4/13
       if: tag IS present
-    - stage: build tarballs
-      env: PART=5/13
+    - env: PART=5/13
       if: tag IS present
-    - stage: build tarballs
-      env: PART=6/13
+    - env: PART=6/13
       if: tag IS present
-    - stage: build tarballs
-      env: PART=7/13
+    - env: PART=7/13
       if: tag IS present
-    - stage: build tarballs
-      env: PART=8/13
+    - env: PART=8/13
       if: tag IS present
-    - stage: build tarballs
-      env: PART=9/13
+    - env: PART=9/13
       if: tag IS present
-    - stage: build tarballs
-      env: PART=10/13
+    - env: PART=10/13
       if: tag IS present
-    - stage: build tarballs
-      env: PART=11/13
+    - env: PART=11/13
       if: tag IS present
-    - stage: build tarballs
-      env: PART=12/13
+    - env: PART=12/13
       if: tag IS present
+    - env: PART=13/13
 
     - stage: regenerate build.jl
       script: julia --color=yes build_tarballs.jl --only-buildjl
