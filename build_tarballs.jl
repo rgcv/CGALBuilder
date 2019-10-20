@@ -34,13 +34,13 @@ __cplusplus=$($CXX -x c++ -dM -E - </dev/null | grep __cplusplus | grep -o '[0-9
 
 ## configure build
 mkdir -p "$WORKSPACE/srcdir/build" && cd "$WORKSPACE/srcdir/build"
-ln -sf "$prefix/include" "/opt/$target/$target/sys-root/usr/local/include"
 
 CMAKE_FLAGS=(
   ## cmake specific
   -DCMAKE_TOOLCHAIN_FILE="/opt/$target/$target.toolchain"
   -DCMAKE_BUILD_TYPE=Release
   -DCMAKE_INSTALL_PREFIX="$prefix"
+  -DCMAKE_FIND_ROOT_PATH="$prefix"
   ## cgal specific
   -DWITH_CGAL_Core=ON
   -DWITH_CGAL_ImageIO=OFF
