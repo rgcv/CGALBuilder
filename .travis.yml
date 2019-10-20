@@ -47,6 +47,9 @@ jobs:
       if: tag IS present
     - env: PART=13/13
 
+    - stage: mock stage
+      script: echo
+
     - stage: regenerate build.jl
       script: julia --color=yes build_tarballs.jl --only-buildjl
       if: tag IS present
