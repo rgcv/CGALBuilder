@@ -14,37 +14,50 @@ env:
   global:
     - BINARYBUILDER_DOWNLOADS_CACHE=downloads
     - BINARYBUILDER_AUTOMATIC_APPLE=true
-before_script:
+before_script: 
   - julia -e 'using Pkg; pkg"add BinaryProvider; add BinaryBuilder#master; build"'
-script:
+script: 
   - julia --color=yes build_tarballs.jl --part="$PART"
 
 jobs:
   include:
-    - env: PART=1/13
+    - name: Linux x86 (32-bit, glibc)
+      env: PART=1/13
       if: tag IS present
-    - env: PART=2/13
-    - env: PART=3/13
+    - name: Linux x86 (64-bit, glibc)
+      env: PART=2/13
+    - name: Linux ARMv8 (64-bit, glibc)
+      env: PART=3/13
       if: tag IS present
-    - env: PART=4/13
+    - name: Linux ARMv7L (32-bit, glibc)
+      env: PART=4/13
       if: tag IS present
-    - env: PART=5/13
+    - name: Linux PowerPC64LE (64-bit, glibc)
+      env: PART=5/13
       if: tag IS present
-    - env: PART=6/13
+    - name: Linux x86 (32-bit, musl)
+      env: PART=6/13
       if: tag IS present
-    - env: PART=7/13
+    - name: Linux x86 (64-bit, musl)
+      env: PART=7/13
       if: tag IS present
-    - env: PART=8/13
+    - name: Linux ARMv8 (64-bit, musl)
+      env: PART=8/13
       if: tag IS present
-    - env: PART=9/13
+    - name: Linux ARMv7L (32-bit, musl)
+      env: PART=9/13
       if: tag IS present
-    - env: PART=10/13
+    - name: MacOS x86 (64-bit)
+      env: PART=10/13
       if: tag IS present
-    - env: PART=11/13
+    - name: FreeBSD x86 (32-bit)
+      env: PART=11/13
       if: tag IS present
-    - env: PART=12/13
+    - name: Windows x86 (32-bit)
+      env: PART=12/13
       if: tag IS present
-    - env: PART=13/13
+    - name: Windows x86 (64-bit)
+      env: PART=13/13
 
     - stage: regenerate build.jl
       script: julia --color=yes build_tarballs.jl --only-buildjl
