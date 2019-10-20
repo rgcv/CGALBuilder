@@ -21,7 +21,7 @@ env:
 before_script:
   - julia -e 'using Pkg; pkg"add BinaryProvider; add BinaryBuilder#master; build"'
 script:
-  - julia --color=yes build_tarballs.jl --verbose --part="$PART"
+  - julia --color=yes build_tarballs.jl --part="$PART"
 
 jobs:
   include:
