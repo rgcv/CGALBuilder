@@ -12,7 +12,7 @@ const sources = [
 
 # Dependencies that must be installed before this package can be built
 dependencies = [
-    "https://github.com/benlorenz/boostBuilder/releases/download/v1.69.0/build_boost.v1.69.0.jl",
+    "https://github.com/benlorenz/boostBuilder/releases/download/v1.71.0-1/build_boost.v1.71.0.jl",
     "https://github.com/JuliaPackaging/Yggdrasil/releases/download/GMP-v6.1.2-1/build_GMP.v6.1.2.jl",
     "https://github.com/JuliaPackaging/Yggdrasil/releases/download/MPFR-v4.0.2-1/build_MPFR.v4.0.2.jl",
 ]
@@ -34,6 +34,7 @@ __cplusplus=$($CXX -x c++ -dM -E - </dev/null | grep __cplusplus | grep -o '[0-9
 
 ## configure build
 mkdir -p "$WORKSPACE/srcdir/build" && cd "$WORKSPACE/srcdir/build"
+ln -sf "$prefix/include" "/opt/$target/$target/sys-root/usr/local/include"
 
 CMAKE_FLAGS=(
   ## cmake specific
