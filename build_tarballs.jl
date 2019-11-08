@@ -3,7 +3,7 @@
 using BinaryBuilder
 
 const name = "CGAL"
-const version = v"4.14.1"
+const version = v"4.14.2"
 
 # Collection of sources required to build CGAL
 const sources = [
