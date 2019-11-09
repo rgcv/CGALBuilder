@@ -7,7 +7,7 @@ const version = v"4.14.2"
 
 # Collection of sources required to build CGAL
 const sources = [
-    "https://github.com/CGAL/cgal.git" => "f19ad523e473030c83a6457b9748387980fdc121",
+    "https://github.com/CGAL/cgal.git" => "f8c1f6eb1bb2df3dc29916890cecc90b4246a9b1",
 ]
 
 # Dependencies that must be installed before this package can be built
