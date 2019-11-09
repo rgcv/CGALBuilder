@@ -3,11 +3,11 @@
 using BinaryBuilder
 
 const name = "CGAL"
-const version = v"4.14.2"
+const version = v"5.0"
 
 # Collection of sources required to build CGAL
 const sources = [
-    "https://github.com/CGAL/cgal.git" => "f8c1f6eb1bb2df3dc29916890cecc90b4246a9b1",
+    "https://github.com/CGAL/cgal.git" => "6e9a233d552262d61d22677fa2ae9d5b69f413e8",
 ]
 
 # Dependencies that must be installed before this package can be built
@@ -26,10 +26,9 @@ set -eu
 # check c++ standard reported by the compiler
 # CGAL uses CMake's try_run to check if it needs to link with Boost.Thread
 # depending on the c++ standard supported by the compiler. From c++11 onwards,
-# CGAL doesn't require Boost.Thread
-__need_boost_thread=1
+# CGAL doesn't require Boost.Thread (by default since CGAL 5.0)
+__need_boost_thread=0
 __cplusplus=$($CXX -x c++ -dM -E - </dev/null | grep __cplusplus | grep -o '[0-9]*')
-[ $__cplusplus -ge 201103 ] && __need_boost_thread=0
 
 
 ## configure build
@@ -58,7 +57,9 @@ cmake --build . --config Release --target install
 
 # These are the platforms we will build for by default, unless further
 # platforms are passed in on the command line
-const platforms = expand_gcc_versions(supported_platforms())
+const platforms = filter(expand_gcc_versions(supported_platforms())) do p
+    p.compiler_abi.gcc_version > :gcc6
+end
 
 # The products that we will ensure are always built
 products(prefix) = [
